@@ -1,5 +1,6 @@
 # SimpleNote
 Simple Note using Kotlin with sqlite and jetpack-navigation
+If you like this Repo, Please click the :star:
 
 ## Feature
 * SQLite
@@ -20,4 +21,7 @@ implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
 
 ## Screenshots
 <img src="/Screenshots/note1.png" width="30%">    <img src="/Screenshots/note2.png" width="30%">   <img src="/Screenshots/note3.png" width="30%">
+
+## License
+Distributed under the [MIT](LICENSE) License.
 
