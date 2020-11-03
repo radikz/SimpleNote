@@ -1,0 +1,23 @@
+<!--
+  ~ SimpleNote
+  ~ themes.xml
+  ~ Created by Rangga Dikarinata on 2020/11/3
+  ~ email 	    : dikarinata@gmail.com
+  ~ Copyright © 2020 Rangga Dikarinata. All rights reserved.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SimpleNote" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorAccent">@color/purple_700</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/purple_500</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="TextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

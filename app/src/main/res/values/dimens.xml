@@ -1,0 +1,11 @@
+<!--
+  ~ SimpleNote
+  ~ dimens.xml
+  ~ Created by Rangga Dikarinata on 2020/11/3
+  ~ email 	    : dikarinata@gmail.com
+  ~ Copyright © 2020 Rangga Dikarinata. All rights reserved.
+  -->
+
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
