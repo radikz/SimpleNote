@@ -1,9 +1,15 @@
 /*
  * SimpleNote
  * NotesAdapter.kt
+ * Created by Rangga Dikarinata on 2020/11/4
+ * email 	    : dikarinata@gmail.com
+ */
+
+/*
+ * SimpleNote
+ * NotesAdapter.kt
  * Created by Rangga Dikarinata on 2020/11/3
  * email 	    : dikarinata@gmail.com
- * Copyright © 2020 Rangga Dikarinata. All rights reserved.
  */
 
 package id.radikz.simplenote.adapter
@@ -14,10 +20,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import id.radikz.simplenote.FirstFragmentDirections
 import id.radikz.simplenote.R
 import id.radikz.simplenote.db.DatabaseHelper
 import id.radikz.simplenote.model.Note
@@ -39,10 +50,14 @@ class NotesAdapter(
         notifyDataSetChanged()
     }
 
-    fun deleteNotes(){
+    fun deleteAllNotes(){
         notes.clear()
         notifyDataSetChanged()
-//        notifyItemRemoved(id)
+    }
+
+    fun deleteNotes(id: Int){
+        notes.removeAt(id)
+        notifyItemRemoved(id)
     }
 
     override fun getItemCount(): Int = notes.size
@@ -66,6 +81,8 @@ class NotesAdapter(
         private val releaseDate: TextView = itemView.findViewById(R.id.list_date)
         private val title: TextView = itemView.findViewById(R.id.list_title)
         private val description: TextView = itemView.findViewById(R.id.list_description)
+        private val icUpdate: ImageView = itemView.findViewById(R.id.list_ic_update)
+        private val icDelete: ImageView = itemView.findViewById(R.id.list_ic_delete_red)
         private var expandable: Boolean = false
         private lateinit var databaseHelper: DatabaseHelper
 
@@ -75,6 +92,30 @@ class NotesAdapter(
             description.setText(note.description)
 
             databaseHelper = DatabaseHelper(context)
+
+            icUpdate.setOnClickListener{
+                val direction = FirstFragmentDirections.actionFirstFragmentToUpdateFragment(note)
+                itemView.findNavController().navigate(direction)
+            }
+
+            icDelete.setOnClickListener{
+                Log.d("adapter", note.date)
+                val alertDialogBuilder = AlertDialog.Builder(context)
+                alertDialogBuilder.setMessage("Are you sure do you want to delete this?")
+                alertDialogBuilder.setPositiveButton("Yes"){ _,_ ->
+
+                    val result: Boolean = databaseHelper.delete(note.id.toString())
+                    if (result){
+                        deleteNotes(getAdapterPosition())
+                    }
+                    else{
+                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                alertDialogBuilder.setNeutralButton("Cancel"){ _,_ -> }
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
+            }
 
             itemView.setOnClickListener {
                 Log.d("adapter", note.title)

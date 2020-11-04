@@ -1,9 +1,15 @@
 /*
  * SimpleNote
  * DatabaseHelper.kt
+ * Created by Rangga Dikarinata on 2020/11/4
+ * email 	    : dikarinata@gmail.com
+ */
+
+/*
+ * SimpleNote
+ * DatabaseHelper.kt
  * Created by Rangga Dikarinata on 2020/11/3
  * email 	    : dikarinata@gmail.com
- * Copyright © 2020 Rangga Dikarinata. All rights reserved.
  */
 
 package id.radikz.simplenote.db
@@ -66,9 +72,27 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(
         return readDb
     }
 
-    fun delete(): Boolean{
+    fun update(id: String, title: String, desc: String): Boolean{
+        val db: SQLiteDatabase = this.writableDatabase
+        val content = ContentValues()
+        content.put(TITLE_COLUMN, title)
+        content.put(DESCRIPTION_COLUMN, desc)
+        content.put(DATE_COLUMN, getDateTime())
+        val updateData = db.update(TABLE_NAME, content, "$_ID=?", arrayOf(id))
+        db.close()
+
+        return !updateData.equals(-1)
+    }
+
+    fun deleteAll(): Boolean{
         val db: SQLiteDatabase = this.writableDatabase
         val data = db.delete(TABLE_NAME, null, null)
+        return !data.equals(-1)
+    }
+
+    fun delete(id: String): Boolean{
+        val db: SQLiteDatabase = this.writableDatabase
+        val data = db.delete(TABLE_NAME, "$_ID=?", arrayOf(id))
         return !data.equals(-1)
     }
 

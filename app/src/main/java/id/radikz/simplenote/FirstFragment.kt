@@ -1,15 +1,20 @@
 /*
  * SimpleNote
  * FirstFragment.kt
+ * Created by Rangga Dikarinata on 2020/11/4
+ * email 	    : dikarinata@gmail.com
+ */
+
+/*
+ * SimpleNote
+ * FirstFragment.kt
  * Created by Rangga Dikarinata on 2020/11/3
  * email 	    : dikarinata@gmail.com
- * Copyright © 2020 Rangga Dikarinata. All rights reserved.
  */
 
 package id.radikz.simplenote
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -64,15 +69,11 @@ class FirstFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_main, menu)
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_delete -> {
                 alertDialog()
@@ -89,11 +90,12 @@ class FirstFragment : Fragment() {
         if (data.moveToFirst()) {
 
             do {
+                val id = data.getInt(data.getColumnIndex("_id"))
                 val title = data.getString(data.getColumnIndex("title"))
                 val description = data.getString(data.getColumnIndex("description"))
                 val date = data.getString(data.getColumnIndex("date"))
 
-                listNotes.add(Note(title, description, date))
+                listNotes.add(Note(id, title, description, date))
 
             } while (data.moveToNext())
 
@@ -109,8 +111,7 @@ class FirstFragment : Fragment() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setMessage("Are you sure do you want to delete all item?")
         alertDialogBuilder.setPositiveButton("Yes"){ _,_ ->
-
-            val result: Boolean = databaseHelper.delete()
+            val result: Boolean = databaseHelper.deleteAll()
             if (result){
                 deleteAllNote()
             }
@@ -124,7 +125,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun deleteAllNote(){
-        notesAdapter.deleteNotes()
+        notesAdapter.deleteAllNotes()
     }
 
 }

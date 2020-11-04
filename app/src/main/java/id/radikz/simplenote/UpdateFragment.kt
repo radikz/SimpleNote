@@ -1,14 +1,7 @@
 /*
  * SimpleNote
- * CreateFragment.kt
+ * UpdateFragment.kt
  * Created by Rangga Dikarinata on 2020/11/4
- * email 	    : dikarinata@gmail.com
- */
-
-/*
- * SimpleNote
- * CreateFragment.kt
- * Created by Rangga Dikarinata on 2020/11/3
  * email 	    : dikarinata@gmail.com
  */
 
@@ -24,17 +17,24 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import id.radikz.simplenote.db.DatabaseHelper
+import id.radikz.simplenote.model.Note
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
+ *
  */
-class CreateFragment : Fragment() {
+
+class UpdateFragment : Fragment() {
 
     private lateinit var title: EditText
     private lateinit var description: EditText
-    private lateinit var add: Button
+    private lateinit var update: Button
     private lateinit var databaseHelper: DatabaseHelper
+    private lateinit var note: Note
+    private val args: UpdateFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,26 +47,36 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireContext() as AppCompatActivity).supportActionBar!!.setTitle("Create")
+        (requireContext() as AppCompatActivity).supportActionBar!!.setTitle("Update")
 
         title = view.findViewById(R.id.create_title)
         description = view.findViewById(R.id.create_description)
-        add = view.findViewById(R.id.create_button)
+        update = view.findViewById(R.id.create_button)
         databaseHelper = DatabaseHelper(requireContext())
 
-        add.setOnClickListener{
-            insertData(it)
+        note = args.note
+
+        update.setText(getString(R.string.update))
+        loadData()
+        update.setOnClickListener{
+            updateData(it)
         }
     }
 
-    private fun insertData(view: View){
+    private fun loadData(){
+        title.setText(note.title)
+        description.setText(note.description)
+    }
+
+    private fun updateData(view: View){
         val strTitle = title.text.toString()
         val strDesc = description.text.toString()
-
-        val result = databaseHelper.insert(strTitle, strDesc)
+        val strId: String = note.id.toString()
+        val result = databaseHelper.update(strId, strTitle, strDesc)
 
         if (result) {
-            Navigation.findNavController(view).navigate(R.id.action_createFragment_to_FirstFragment)
+            Toast.makeText(requireContext(), "Data updated", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(view).navigate(R.id.action_updateFragment_to_FirstFragment)
         }
         else{
             Toast.makeText(requireContext(), "Failed to insert data", Toast.LENGTH_SHORT).show()

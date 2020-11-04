@@ -1,9 +1,15 @@
 /*
  * SimpleNote
  * ExampleUnitTest.kt
+ * Created by Rangga Dikarinata on 2020/11/4
+ * email 	    : dikarinata@gmail.com
+ */
+
+/*
+ * SimpleNote
+ * ExampleUnitTest.kt
  * Created by Rangga Dikarinata on 2020/11/3
  * email 	    : dikarinata@gmail.com
- * Copyright © 2020 Rangga Dikarinata. All rights reserved.
  */
 
 package id.radikz.simplenote
